@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UUID Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .container, .db-info {
+      background: rgba(255, 255, 255, 0.95);
+      width: 100%;
+      max-width: 500px; /* Consistent with Login page */
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      margin-bottom: 2rem;
+      color: #333;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #764ba2;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    h1 i {
+      font-size: 1.5rem;
+      color: #764ba2;
+    }
+    .subtitle {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    input[type="number"], input[type="text"] {
+      width: 60%;
+      max-width: 300px;
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      margin: 0 auto;
+      display: block;
+      transition: all 0.3s ease;
+    }
+    input[type="number"] {
+      text-align: center;
+    }
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      background: #5a67d8;
+    }
+    #generateBtn {
+      background: #667eea;
+      color: #fff;
+    }
+    #downloadBtn {
+      background: #28a745;
+      color: #fff;
+    }
+    #downloadBtn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    #downloadBtn:hover:not(:disabled) {
+      background: #218838;
+    }
+    #logoutBtn {
+      background: #dc3545;
+      color: #fff;
+      width: 50%;
+      max-width: 200px;
+      margin: 2rem auto 0;
+      display: block;
+    }
+    #logoutBtn:hover {
+      background: #c82333;
+    }
+    #searchUUIDBtn {
+      background: #667eea;
+      color: #fff;
+      width: 50%;
+      max-width: 200px;
+      margin: 0.75rem auto 0;
+      display: block;
+    }
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      color: #666;
+    }
+    .spinner {
+      border: 3px solid #ddd;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .hidden {
+      display: none;
+    }
+    #status {
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #28a745;
+    }
+    .db-info h2 {
+      font-size: 1.5rem;
+      color: #764ba2;
+      margin-bottom: 1rem;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #ddd;
+      margin: 1rem 0;
+    }
+    p {
+      font-size: 1rem;
+      color: #555;
+      padding: 0.5rem 1rem; /* Keeps padding for spacing */
+      /* Removed: white-space: nowrap, overflow: hidden, text-overflow: ellipsis */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-qrcode"></i> UUID Generator</h1>
+    <p class="subtitle">Generate unique UUIDs and download them as a CSV file.</p>
+    <label for="numUUIDs">Number of UUIDs:</label>
+    <input type="number" id="numUUIDs" min="1" value="100" required />
+    <div class="buttons">
+      <button id="generateBtn">Generate UUIDs</button>
+      <button id="downloadBtn" disabled>Download CSV</button>
+    </div>
+    <div id="loading" class="hidden spinner-container">
+      <div class="spinner"></div>
+      <span>Generating UUIDs...</span>
+    </div>
+    <div id="downloadLoading" class="hidden spinner-container">
+      <div class="spinner"></div>
+      <span>Preparing file for download...</span>
+    </div>
+    <div id="status"></div>
+  </div>
+  <div class="db-info">
+    <h1>Database Overview</h1>
+    <button id="getTotalBtn">Total UUID Count</button>
+    <p>Total UUIDs: <span id="uuidCount">Click to get total</span></p>
+    <hr />
+    <button id="getLastUUIDBtn">Last UUID by Date</button>
+    <p>Last UUID: <span id="lastUUID">Click to get last</span></p>
+    <hr />
+    <label for="searchUUID">Search UUID</label>
+    <input type="text" id="searchUUID" placeholder="Enter UUID" />
+    <button id="searchUUIDBtn">Search</button>
+    <p id="searchUUIDResult"></p>
+  </div>
+  <button id="logoutBtn">Logout</button>
+  <script src="script.js"></script>
+</body>
+</html>

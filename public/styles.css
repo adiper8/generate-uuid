@@ -1,0 +1,201 @@
+/* 1) GLOBAL RESET & BASE STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  text-align: center;
+  padding: 40px;
+}
+
+/* 2) MAIN CONTAINER */
+.container, .db-info {
+  background: #ffffff;
+  max-width: 500px;
+  margin: 0 auto 30px auto;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease-in-out;
+}
+
+.container:hover, .db-info:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* 3) TITLES */
+.container h1, .db-info h2 {
+  color: #222;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+/* 4) FORM ELEMENTS */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  width: 120px;
+  text-align: center;
+  background: #ffffff;
+  color: #495057;
+  transition: 0.2s;
+  margin-bottom: 1rem;
+}
+
+input:focus {
+  border-color: #0d6efd;
+  outline: none;
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+}
+
+/* 5) BUTTONS */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Generate Button */
+#generateBtn {
+  background-color: #0d6efd;
+  color: #fff;
+}
+#generateBtn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Download Button */
+#downloadBtn {
+  background-color: #198754;
+  color: #fff;
+}
+#downloadBtn:hover {
+  background-color: #157347;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+}
+
+/* Disabled Button Styling */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 6) SPINNER CONTAINER */
+.spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #0d6efd;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 7) DATABASE INFO SECTION */
+.db-info button {
+  background-color: #0d6efd;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease-in-out;
+  width: 70%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+.db-info button:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Display Paragraphs */
+.db-info p {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-top: 0.8rem;
+  color: #495057;
+}
+
+/* Horizontal Rule */
+.db-info hr {
+  margin: 1.2rem 0;
+  border: none;
+  border-top: 1px solid #e2e3e5;
+}
+
+/* Search Input & Result */
+.db-info input {
+  width: 70%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#searchUUIDResult {
+  color: #0d6efd;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+/* 8) AUTHENTICATION / LOGIN PAGE STYLING */
+.auth-container {
+  margin-top: 20px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
