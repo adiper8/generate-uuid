@@ -169,7 +169,6 @@
       font-size: 1rem;
       color: #555;
       padding: 0.5rem 1rem; /* Keeps padding for spacing */
-      /* Removed: white-space: nowrap, overflow: hidden, text-overflow: ellipsis */
     }
   </style>
 </head>
@@ -192,6 +191,9 @@
       <span>Preparing file for download...</span>
     </div>
     <div id="status"></div>
+    <!-- New display elements for countdown and remaining UUIDs -->
+    <div id="updateStatus" style="margin-top: 1rem; font-weight: bold;"></div>
+    <div id="countdownTimer" style="margin-top: 0.5rem;"></div>
   </div>
   <div class="db-info">
     <h1>Database Overview</h1>

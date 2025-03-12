@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("logoutBtn");
 
     let generatedUUIDs = [];
+    let countdownIntervalId; // To store the countdown interval
 
     // Reset page to its initial state
     function resetPage() {
@@ -17,6 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDiv.innerText = "";
         loadingIndicator.style.display = "none";
         downloadLoadingIndicator.style.display = "none";
+        document.getElementById("updateStatus").innerText = "";
+        document.getElementById("countdownTimer").innerText = "";
+        if (countdownIntervalId) {
+            clearInterval(countdownIntervalId);
+        }
     }
     resetPage();
 
@@ -53,11 +59,59 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Function to start countdown and update remaining UUIDs
+    function startCountdown(expectedTotal) {
+        let countdown = 20;
+        // Clear any previous interval if exists
+        if (countdownIntervalId) {
+            clearInterval(countdownIntervalId);
+        }
+        countdownIntervalId = setInterval(async () => {
+            document.getElementById("countdownTimer").innerText = `Next update in ${countdown} seconds`;
+            
+            if (countdown === 0) {
+                try {
+                    const res = await fetch("/db-info");
+                    const data = await res.json();
+                    const currentCount = parseInt(data.count) || 0;
+                    const remaining = expectedTotal - currentCount;
+                    document.getElementById("updateStatus").innerText = `Remaining UUIDs: ${remaining}`;
+                } catch (error) {
+                    console.error("Error updating UUID count:", error);
+                }
+                countdown = 20; // reset countdown
+            } else {
+                countdown--;
+            }
+        }, 1000);
+    }
+
     // Download UUIDs
     downloadBtn.addEventListener("click", async () => {
         if (downloadBtn.disabled) return;
         statusDiv.innerText = "";
         downloadLoadingIndicator.style.display = "flex";
+
+        // Get the snapshot of the current UUID count before new ones are added.
+        let snapshotCount = 0;
+        try {
+            const snapshotResponse = await fetch("/db-info");
+            const snapshotData = await snapshotResponse.json();
+            snapshotCount = parseInt(snapshotData.count) || 0;
+        } catch (error) {
+            console.error("Error fetching snapshot count:", error);
+        }
+        
+        // Get the number of UUIDs to be generated from the input
+        const numUUIDs = parseInt(numUUIDsInput.value);
+        // Calculate the expected total after the new batch is inserted.
+        const expectedTotal = snapshotCount + numUUIDs;
+        
+        // Immediate update: Show the number that will be generated (i.e. expectedTotal - snapshotCount)
+        document.getElementById("updateStatus").innerText = `Remaining UUIDs: ${expectedTotal - snapshotCount}`;
+        
+        // Start the countdown display that updates remaining UUIDs every 20 seconds
+        startCountdown(expectedTotal);
 
         try {
             const response = await fetch("/download", {

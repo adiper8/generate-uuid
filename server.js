@@ -19,7 +19,7 @@ app.use(
         secret: "secure-session",
         resave: false,
         saveUninitialized: false,
-        cookie: { maxAge: 30 * 60 * 1000 },
+        cookie: { maxAge: 5 * 60 * 60 * 1000 },
     })
 );
 

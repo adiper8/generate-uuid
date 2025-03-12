@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Added Font Awesome stylesheet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     body {
       margin: 0;
@@ -27,11 +29,19 @@
       text-align: center;
       color: #333;
     }
+    .logo {
+      width: 150px; /* Adjust size as needed */
+      margin-bottom: 1.5rem; /* Space between logo and title */
+    }
     h1 {
       font-size: 2rem;
       font-weight: 700;
       color: #764ba2;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
     }
     form {
       display: flex;
@@ -41,7 +51,8 @@
     label {
       font-weight: 600;
       color: #444;
-      margin-bottom: 0.25rem;
+      /* Increased margin-bottom for more space between label and input */
+      margin-bottom: 0.5rem;
     }
     input {
       width: 60%; /* Reduced from 80% */
@@ -53,6 +64,7 @@
       margin: 0 auto;
       display: block;
       transition: all 0.3s ease;
+      margin-top: 0.3rem
     }
     input:focus {
       outline: none;
@@ -87,6 +99,8 @@
 </head>
 <body>
   <div class="login-container">
+    <!-- New header added -->
+    <h1><i class="fas fa-qrcode"></i> UUID Generator</h1>
     <h1>Login</h1>
     <form id="loginForm">
       <div>
@@ -138,5 +152,6 @@
       }
     });
   </script>
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91eecc2c9f13bd07',t:'MTc0MTczNTM4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
